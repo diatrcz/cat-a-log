@@ -1,10 +1,16 @@
+import database.Database
+import data.Library
+import user.UserManager
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 
 fun main() {
-    val library = Library()
-    val userManager = UserManager()
+    val database = Database()
+    database.connect()
+    
+    val library = Library(database)
+    val userManager = UserManager(database)
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
     println("Welcome to Cat-a-Log - Library Management System")
@@ -12,56 +18,60 @@ fun main() {
     println("  Admin: username='admin', password='admin123'")
     println("  User: username='user1', password='password'")
 
-    while (true) {
-        printMenu(userManager)
-        print("\nEnter your choice: ")
-        
-        val input = readLine()?.trim() ?: ""
-        
-        when (input) {
-            "1" -> {
-                if (checkLoggedIn(userManager)) {
-                    addBook(library)
-                }
-            }
-            "2" -> library.listAllBooks()
-            "3" -> searchBooks(library)
-            "4" -> viewBookDetails(library)
-            "5" -> {
-                if (checkLoggedIn(userManager)) {
-                    checkoutBook(library, userManager, formatter)
-                }
-            }
-            "6" -> {
-                if (checkLoggedIn(userManager)) {
-                    returnBook(library, userManager)
-                }
-            }
-            "7" -> {
-                if (checkLoggedIn(userManager)) {
-                    userManager.getCurrentUsername()?.let { 
-                        library.listBorrowedBooksByUser(it)
+    try {
+        while (true) {
+            printMenu(userManager)
+            print("\nEnter your choice: ")
+            
+            val input = readLine()?.trim() ?: ""
+            
+            when (input) {
+                "1" -> {
+                    if (checkLoggedIn(userManager)) {
+                        addBook(library)
                     }
                 }
-            }
-            "8" -> {
-                if (checkLoggedIn(userManager)) {
-                    userManager.getCurrentUsername()?.let { 
-                        library.listOverdueBooksByUser(it)
+                "2" -> library.listAllBooks()
+                "3" -> searchBooks(library)
+                "4" -> viewBookDetails(library)
+                "5" -> {
+                    if (checkLoggedIn(userManager)) {
+                        checkoutBook(library, userManager, formatter)
                     }
                 }
+                "6" -> {
+                    if (checkLoggedIn(userManager)) {
+                        returnBook(library, userManager)
+                    }
+                }
+                "7" -> {
+                    if (checkLoggedIn(userManager)) {
+                        userManager.getCurrentUsername()?.let { 
+                            library.listBorrowedBooksByUser(it)
+                        }
+                    }
+                }
+                "8" -> {
+                    if (checkLoggedIn(userManager)) {
+                        userManager.getCurrentUsername()?.let { 
+                            library.listOverdueBooksByUser(it)
+                        }
+                    }
+                }
+                "9" -> login(userManager)
+                "10" -> register(userManager)
+                "11" -> userManager.logout()
+                "12" -> {
+                    println("Goodbye!")
+                    break
+                }
+                "" -> { /* Empty input, just show menu again */ }
+                else -> println("Invalid choice. Please try again.")
             }
-            "9" -> login(userManager)
-            "10" -> register(userManager)
-            "11" -> userManager.logout()
-            "12" -> {
-                println("Goodbye!")
-                return
-            }
-            "" -> { /* Empty input, just show menu again */ }
-            else -> println("Invalid choice. Please try again.")
+            println()
         }
-        println()
+    } finally {
+        database.disconnect()
     }
 }
 
