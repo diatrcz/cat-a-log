@@ -51,17 +51,7 @@ The system comes with two pre-configured accounts for testing:
 java -jar build/libs/catalog-1.0-SNAPSHOT.jar
 ```
 
-### Option 2: Compile and Run with Kotlin Compiler
-
-```bash
-# Compile
-kotlinc Main.kt Book.kt Library.kt -include-runtime -d catalog.jar
-
-# Run
-java -jar catalog.jar
-```
-
-### Option 3: Using IntelliJ IDEA or other IDE
+### Option 2: Using IntelliJ IDEA or other IDE
 
 Simply open the project and run `Main.kt`
 
