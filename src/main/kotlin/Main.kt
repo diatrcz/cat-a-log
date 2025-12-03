@@ -65,7 +65,7 @@ fun main() {
                     println("Goodbye!")
                     break
                 }
-                "" -> { /* Empty input, just show menu again */ }
+                "" -> { }           // divider to show the menu again
                 else -> println("Invalid choice. Please try again.")
             }
             println()
@@ -79,22 +79,27 @@ fun printMenu(userManager: UserManager) {
     println("\n--- Cat-a-Log Menu ---")
     if (userManager.isLoggedIn()) {
         println("Logged in as: ${userManager.getCurrentUsername()}")
+        println()
+        println("1. Add a book")
+        println("2. List all books")
+        println("3. Search books")
+        println("4. View book details")
+        println("5. Check out a book")
+        println("6. Return a book")
+        println("7. List my borrowed books")
+        println("8. List my overdue books")
+        println("11. Logout")
+        println("12. Exit")
     } else {
         println("Not logged in (limited access)")
+        println()
+        println("2. List all books")
+        println("3. Search books")
+        println("4. View book details")
+        println("9. Login")
+        println("10. Register")
+        println("12. Exit")
     }
-    println()
-    println("1. Add a book ${if (!userManager.isLoggedIn()) "[Login required]" else ""}")
-    println("2. List all books")
-    println("3. Search books")
-    println("4. View book details")
-    println("5. Check out a book ${if (!userManager.isLoggedIn()) "[Login required]" else ""}")
-    println("6. Return a book ${if (!userManager.isLoggedIn()) "[Login required]" else ""}")
-    println("7. List my borrowed books ${if (!userManager.isLoggedIn()) "[Login required]" else ""}")
-    println("8. List my overdue books ${if (!userManager.isLoggedIn()) "[Login required]" else ""}")
-    println("9. Login")
-    println("10. Register")
-    println("11. Logout")
-    println("12. Exit")
 }
 
 fun addBook(library: Library) {

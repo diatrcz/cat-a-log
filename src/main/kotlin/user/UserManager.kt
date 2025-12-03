@@ -6,7 +6,6 @@ class UserManager(private val database: Database) {
     private var currentUser: User? = null
 
     init {
-        // Create default users if they don't exist
         if (!database.userExists("admin")) {
             database.saveUser(User("admin", "admin123", isAdmin = true))
         }

@@ -45,10 +45,6 @@ The system comes with two pre-configured accounts for testing:
 ```bash
 # Run directly
 ./gradlew run
-
-# Or build and run the JAR
-./gradlew jar
-java -jar build/libs/catalog-1.0-SNAPSHOT.jar
 ```
 
 ### Option 2: Using IntelliJ IDEA or other IDE

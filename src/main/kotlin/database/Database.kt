@@ -60,7 +60,6 @@ class Database(private val dbPath: String = "catalog.db") {
         }
     }
 
-    // User operations
     fun saveUser(user: User): Boolean {
         val sql = "INSERT INTO users (username, password, is_admin) VALUES (?, ?, ?)"
         return try {
@@ -111,7 +110,7 @@ class Database(private val dbPath: String = "catalog.db") {
         }
     }
 
-    // Book operations
+
     fun saveBook(book: Book): Int {
         val sql = "INSERT INTO books (title, author, year, borrower, due_date) VALUES (?, ?, ?, ?, ?)"
         return try {
@@ -122,8 +121,7 @@ class Database(private val dbPath: String = "catalog.db") {
                 stmt.setString(4, book.borrower)
                 stmt.setString(5, book.dueDate?.toString())
                 stmt.executeUpdate()
-                
-                // Get the generated ID
+
                 val rs = stmt.generatedKeys
                 if (rs.next()) rs.getInt(1) else -1
             } ?: -1
